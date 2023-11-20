@@ -11,6 +11,7 @@ const user_details = require("./routes/user-details");
 const payment = require("./routes/payment");
 const signup = require("./routes/signup");
 const order_status = require("./routes/order-status");
+const morgan = require("morgan");
 
 const app = express();
 
@@ -31,7 +32,11 @@ setUpMongo();
 app.use(cors({ credentials: true, origin: process.env.FRONTEND_URL}));
 app.use(express.json());
 app.use(cookieParser());
+app.use(morgan("tiny"))
 
+app.get("/health", (req, res) => {
+    res.send("Running")
+})
 app.use("/api/signup", signup)
 app.use("/api/login", login);
 app.use("/api/menu", authenticate, menu);
